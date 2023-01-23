@@ -1,0 +1,31 @@
+---
+- name: install homebrew dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - build-essential
+    - procps
+    - curl
+    - file
+    - git
+
+- name: install homebrew
+  shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" NONINTERACTIVE=1
+
+- name: add homebrew to path
+  shell: |
+    echo '# Set PATH, MANPATH, etc., for Homebrew.' >> $HOME/.profile
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.profile
+
+- name: eval homebrew
+  shell: eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+- name: restart shell
+  shell: . $HOME/.profile
+
+- name: git clone .dotfiles
+  ansible.builtin.git:
+    repo: https://github.com/Delta-a-Sierra/.dotfile
+    dest: $HOME/.dotfiles

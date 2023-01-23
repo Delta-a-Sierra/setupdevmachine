@@ -1,9 +1,7 @@
 ---
 - name: Playbook
-  become: yes
   hosts: all
-  tasks:
-    - name: ensure curl is at the latest version
-      apt:
-        name: curl
-        state: latest
+  roles:
+    - common
+    - nvim
+    - terminal

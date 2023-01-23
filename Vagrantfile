@@ -53,9 +53,10 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
     vb.name = "dev_test"
-    # vb.gui = true
+    vb.gui = true
+    vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
+    vb.customize ['modifyvm', :id, '--vram', '16']
 
-  #
   #   # Customize the amount of memory on the VM:
     vb.memory = "1024"
   end
@@ -72,6 +73,7 @@ Vagrant.configure("2") do |config|
     apt-get install python3 python3-pip -y
     sudo rm -f /usr/bin/pip
     sudo ln -s /usr/bin/pip3 /usr/bin/pip
+    apt-get install ubuntu-desktop -y
   SHELL
 
   config.vm.provision "ansible_local" do |ansible|

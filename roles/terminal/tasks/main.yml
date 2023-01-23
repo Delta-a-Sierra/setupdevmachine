@@ -1,0 +1,23 @@
+---
+- name: add alacritty repo
+  ansible.builtin.apt_repository:
+    repo: ppa:aslatter/ppa
+  become: yes
+
+- name: install alacritty
+  apt:
+    name: alacritty
+    state: latest
+  become: yes
+
+- name: install nerdfonts
+  copy:
+    src: "{{item}}"
+    dest: ~/.local/share/fonts/
+  with_fileglob: "files/fonts/*"
+
+- name: regenerate font-cache
+  shell: fc-cache -f -v
+
+- name: validate nerdfont detected
+  shell: fc-list | grep "MesloLGS NF"
