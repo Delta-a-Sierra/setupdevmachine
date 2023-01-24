@@ -25,7 +25,21 @@
 - name: restart shell
   shell: . $HOME/.profile
 
+- name: install node
+  shell: brew install nvm
+
+- name: add nvm to .bashrc
+  shell: |
+    echo 'export NVM_DIR="$HOME/.nvm"' >> $HOME/.bashrc
+    echo '[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"'  >> $HOME/.bashrc
+    echo '[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"' >> $HOME/.bashrc
+
+- name: restart shell
+  shell: . $HOME/.bashrc
+
 - name: git clone .dotfiles
   ansible.builtin.git:
     repo: https://github.com/Delta-a-Sierra/.dotfile
     dest: $HOME/.dotfiles
+    single_branch: yes
+    version: tidy

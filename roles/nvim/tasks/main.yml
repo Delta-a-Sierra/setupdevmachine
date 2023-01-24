@@ -1,3 +1,6 @@
 ---
 - name: install neovim
   shell: brew install neovim
+
+- name: link nvim folder to config
+  shell: ln -s $HOME/.dotfiles/nvim $HOME/.config/nvim
